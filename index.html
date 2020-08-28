@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+    <link rel="stylesheet" href="index.css">
+    <title>Tetris</title>
+    <script src="constants.js" defer></script>
+    <script src="board.js" defer></script>
+    <script src="pieces.js" defer></script>
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <div class="grid">
+        <canvas id="board" class="gameBoard"></canvas>
+        <div class="rightColumn">
+            <div>
+                <h1>TETRIS</h1>
+                <p>Score: <span id="score">0</span></p>
+                <p>Lines: <span id="lines">0</span></p>
+                <p>Level: <span id="level">0</span></p>
+                <canvas id="next" class="next"></canvas>
+            </div>
+            <button onclick="play()" class="play-button">Play</button>
+        </div>
+    </div>
+</body>
+
+</html>
