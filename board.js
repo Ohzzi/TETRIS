@@ -35,16 +35,15 @@ class Board {
     }
 
     valid(p) {
-        let result = true
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    if(p.x + x > 11 || p.x + x < 0) result = false // 블럭이 좌우를 넘어갔을 때
-                    if(p.y + y > 19) result = false // 블럭이 아래쪽을 넘어갔을 때
-                    if(this.grid[p.y + y][p.x + x]) result = false // 블럭이 이미 쌓여 있는 다른 블럭과 부딪혔을 때
+                    if(p.x + x > 11 || p.x + x < 0 || p.y+y > 19) return false // 블럭이 좌우 또는 아래쪽을 넘어갔을 때
+                    //if(p.y + y > 19) result = false // 블럭이 아래쪽을 넘어갔을 때
+                    if(this.grid[p.y + y][p.x + x]) return false // 블럭이 이미 쌓여 있는 다른 블럭과 부딪혔을 때
                 }
             }
         }
-        return result
+        return true
     }
 }

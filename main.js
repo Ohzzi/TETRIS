@@ -35,13 +35,13 @@ document.addEventListener('keydown', event => {
         let p = board.piece
         board.clearData(p)
         p.rotate()
-        if(!board.valid(p)) {
+        if(!board.valid(p)) { // 블럭을 회전했을 때 유효하지 않으면
             p.restore()
-            board.setData(originalPiece)
-            return
         }
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-        board.piece.draw()
+        else {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+            board.piece.draw()
+        }
         board.setData(p)
     }
     else if (moves[event.keyCode]) {
