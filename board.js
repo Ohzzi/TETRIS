@@ -21,7 +21,7 @@ class Board {
                     this.grid[p.y + y][p.x + x] = 1
                 }
             }
-        }
+        } // 블럭이 차 있는 칸에 데이터를 입력
     }
     
     clearData(p) {
@@ -31,7 +31,7 @@ class Board {
                     this.grid[p.y + y][p.x + x] = 0
                 }
             }
-        }
+        } // 블럭이 차 있는 칸에 데이터 삭제
     }
 
     valid(p) {

@@ -24,8 +24,7 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE) // ctx의 크기를 조정. BLOCK_SIZE * BLOCK
 moves = {
     [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }), // ...p (펼침 연산자) p를 얕은 복사
     [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
-    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
-    [KEYS.UP]: (p) => ({ ...p})
+    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 })
 }
 
 

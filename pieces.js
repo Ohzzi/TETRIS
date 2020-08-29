@@ -6,12 +6,13 @@ class Piece {
 
     constructor(ctx) {
         this.ctx = ctx
-        this.spawn()
+        this.spawn(Math.floor(Math.random() * colorList.length))
     }
 
-    spawn() {
-        this.color = colorList[0]
-        this.x = 4
+    spawn(rand) {
+        currentShape = rand
+        this.color = colorList[rand]
+        this.x = 5
         this.y = 0
     }
 
