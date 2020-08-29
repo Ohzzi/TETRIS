@@ -2,7 +2,6 @@ class Piece {
     x
     y
     color
-    shape
     ctx
 
     constructor(ctx) {
@@ -22,6 +21,7 @@ class Piece {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
                     this.ctx.fillRect(this.x + x, this.y + y, 1, 1)
+                    
                 }
                 /*
                 예를 들어 shapes[0][0] = 0x4640의 
@@ -33,18 +33,9 @@ class Piece {
             }
         }
     }
+
+    move(p) {
+        this.x = p.x
+        this.y = p.y
+    }
 }
-
-let currentShape = 0, currentRotation = 3
-
-const colorList = ['#dc143c', '#ff8c00', '#00ffff', '#7fff00', '#ffd700', '#ff69b4', '#000080']
-
-const shapes = [
-    [0x4640, 0x0E40, 0x4C40, 0x4E00], // 'T' 
-    [0x8C40, 0x6C00, 0x8C40, 0x6C00], // 'S' 
-    [0x4C80, 0xC600, 0x4C80, 0xC600], // 'Z' 
-    [0x4444, 0x0F00, 0x4444, 0x0F00], // 'I'
-    [0x44C0, 0x8E00, 0xC880, 0xE200], // 'J' 
-    [0x88C0, 0xE800, 0xC440, 0x2E00], // 'L' 
-    [0xCC00, 0xCC00, 0xCC00, 0xCC00] // 'O'
-]
