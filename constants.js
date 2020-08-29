@@ -3,13 +3,18 @@ const ROWS = 20
 const BLOCK_SIZE = 30
 
 const KEYS = {
-    LEFT : 37,
-    RIGHT : 39,
-    DOWN : 40
+    ESC: 27,
+    SPACE: 32,
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+    P: 80,
+    Q: 81
 }
 Object.freeze(KEYS) // KEYS 열거형을 불변하게 만듦
 
-let currentShape = 0, currentRotation = 0
+let currentShape = 0, currentRotation = 0, isPlay = false
 
 const colorList = ['#dc143c', '#ff8c00', '#00ffff', '#7fff00', '#ffd700', '#ff69b4', '#000080']
 

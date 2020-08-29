@@ -38,4 +38,14 @@ class Piece {
         this.x = p.x
         this.y = p.y
     }
+
+    rotate() {
+        currentRotation++
+        if(currentRotation === 4) currentRotation = 0
+    }
+
+    restore() {
+        currentRotation--
+        if(currentRotation === -1) currentRotation = 3
+    }
 }
