@@ -3,7 +3,7 @@ JavaScript로 만드는 테트리스
 
 How To Use
 
-KEY UP : 회전
+KEY UP : 회전\n
 KEY LEFT : 왼쪽으로 블록 이동
 KEY RIGHT : 오른쪽으로 블록 이동
 KEY DOWN : 아래로 블록 이동
