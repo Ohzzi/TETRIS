@@ -12,7 +12,7 @@ class Piece {
     spawn(rand) {
         currentShape = rand
         this.color = colorList[rand]
-        this.x = 5
+        this.x = 4
         this.y = 0
     }
 
@@ -22,7 +22,6 @@ class Piece {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
                     this.ctx.fillRect(this.x + x, this.y + y, 1, 1)
-                    
                 }
                 /*
                 예를 들어 shapes[0][0] = 0x4640의 
@@ -40,12 +39,12 @@ class Piece {
         this.y = p.y
     }
 
-    rotate() {
+    rotateBlock() {
         currentRotation++
         if(currentRotation === 4) currentRotation = 0
     }
 
-    restore() {
+    restoreBlock() {
         currentRotation--
         if(currentRotation === -1) currentRotation = 3
     }
