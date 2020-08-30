@@ -1,5 +1,6 @@
 class Board {
     grid
+    piece
 
     reset() {
         this.grid = this.getEmptyBoard()
@@ -34,16 +35,47 @@ class Board {
         } // 블럭이 차 있는 칸에 데이터 삭제
     }
 
+    /*fix(p) {
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
+                    this.grid[p.y + y][p.x + x] = 1
+                }
+            }
+        } // 블럭이 차 있는 칸에 데이터를 입력
+    }*/
+
     valid(p) {
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    if(p.x + x > 11 || p.x + x < 0 || p.y+y > 19) return false // 블럭이 좌우 또는 아래쪽을 넘어갔을 때
-                    //if(p.y + y > 19) result = false // 블럭이 아래쪽을 넘어갔을 때
-                    if(this.grid[p.y + y][p.x + x]) return false // 블럭이 이미 쌓여 있는 다른 블럭과 부딪혔을 때
+                    if(p.x + x > 11 || p.x + x < 0) return false // 블럭이 좌우 아래쪽을 넘어갔을 때
+                    if(p.y + y > 19) {
+                        return false
+                    } // 블럭이 아래쪽을 넘어갔을 때
+                    if(this.grid[p.y + y][p.x + x]) {
+                        return false
+                    } // 블럭이 이미 쌓여 있는 다른 블럭과 부딪혔을 때
                 }
             }
         }
         return true
+    }
+
+    isBottom(p) {
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
+                    if(p.x + x > 11 || p.x + x < 0) return false // 블럭이 좌우 넘어갔을 때
+                    if(p.y + y > 19) {
+                        return true
+                    } // 블럭이 아래쪽을 넘어갔을 때
+                    if(this.grid[p.y + y][p.x + x]) {
+                        return true
+                    } // 블럭이 이미 쌓여 있는 다른 블럭과 부딪혔을 때
+                }
+            }
+        }
+        return false
     }
 }

@@ -34,6 +34,17 @@ class Piece {
         }
     }
 
+    remove() {
+        this.ctx.fillStyle = 'white'
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
+                    this.ctx.fillRect(this.x + x, this.y + y, 1, 1)
+                }
+            }
+        }
+    }
+
     move(p) {
         this.x = p.x
         this.y = p.y
@@ -41,11 +52,11 @@ class Piece {
 
     rotateBlock() {
         currentRotation++
-        if(currentRotation === 4) currentRotation = 0
+        if (currentRotation === 4) currentRotation = 0
     }
 
     restoreBlock() {
         currentRotation--
-        if(currentRotation === -1) currentRotation = 3
+        if (currentRotation === -1) currentRotation = 3
     }
 }
