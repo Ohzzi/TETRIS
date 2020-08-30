@@ -24,18 +24,8 @@ function play() {
         board.setData(piece) // board의 grid에 현재 블록이 들어있는 칸을 표시
         setInterval(
             function () {
-                // board.clearData(board.piece) // 이동하기 전에 piece가 있었던 위치를 지워줌
                 let p = moves[KEYS.DOWN](board.piece)
                 moveBlock(p)
-                /*if (board.valid(p)) {
-                    board.piece.move(p)
-                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-                    board.piece.draw()
-                    board.setData(p) // board의 grid에 현재 블록이 들어있는 칸을 표시
-                }
-                else {
-                    board.setData(originalPiece)
-                }*/
             }, 800
         )
     }
@@ -83,32 +73,11 @@ function moveBlock(p) {
 document.addEventListener('keydown', event => {
     if (event.keyCode == KEYS.UP) {
         keyUp()
-        /*let p = board.piece
-        board.clearData(p)
-        p.rotateBlock()
-        if (!board.valid(p)) { // 블럭을 회전했을 때 유효하지 않으면
-            p.restoreBlock()
-        }
-        else {
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-            board.piece.draw()
-        }
-        board.setData(p)*/
     }
     else if (moves[event.keyCode]) {
         const originalPiece = board.piece
         event.preventDefault()
-        //board.clearData(board.piece) // 이동하기 전에 piece가 있었던 위치를 지워줌
         let p = moves[event.keyCode](board.piece)
         moveBlock(p)
-        /*if (board.valid(p)) {
-            board.piece.move(p)
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-            board.piece.draw()
-            board.setData(p) // board의 grid에 현재 블록이 들어있는 칸을 표시
-        }
-        else {
-            board.setData(originalPiece)
-        }*/
     }
 })
