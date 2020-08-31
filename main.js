@@ -6,18 +6,37 @@ ctx.canvas.height = ROWS * BLOCK_SIZE
 
 let board = new Board()
 
-function generateBlock() {
-    this.clearInterval()
-    let piece = new Piece(ctx)
-    piece.draw()
-    board.piece = piece
-    board.setData(piece)
-    setInterval (
-        function () {
-            let p = moves[KEYS.DOWN](board.piece)
-            moveBlock(p)
-        }, 800
-    )
+let dt = 0, step = 0.4, now = timestamp(), last = timestamp()
+
+function animate() {
+    now = timestamp()
+    update(Math.min(1, (now - last) / 2000.0))
+    last = now
+    window.requestAnimationFrame(animate)
+}
+
+function timestamp() {
+    return new Date().getTime()
+}
+
+function update(idt) {
+    dt = dt + idt
+    if(dt > step) {
+        dt = dt - step
+        const p = moves[KEYS.DOWN](board.piece)
+        console.log(board.isBottom(p))
+        if(!board.isBottom(p)){
+            board.clearData(board.piece)
+            board.piece.remove()
+            board.piece.y++
+            board.piece.draw()
+            board.setData(board.piece)
+        } else {
+            board.removeLine()
+            generateBlock()
+            animate()
+        }
+    }
 }
 
 function play() {
@@ -26,7 +45,15 @@ function play() {
         board.reset()
         board.getEmptyBoard()
         generateBlock()
+        animate()
     }
+}
+
+function generateBlock() {
+    let piece = new Piece(ctx)
+    board.piece = piece
+    piece.draw()
+    board.setData(piece)
 }
 
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE) // ctx의 크기를 조정. BLOCK_SIZE * BLOCK_SIZE를 1로
@@ -54,7 +81,7 @@ function keyUp() {
 }
 
 function moveBlock(p) {
-    const originalPiece = ({...board.piece})
+    const originalPiece = ({ ...board.piece })
     board.clearData(board.piece)
     if (board.valid(p)) {
         board.piece.remove()
@@ -64,9 +91,6 @@ function moveBlock(p) {
     }
     else {
         board.setData(originalPiece)
-        if(board.isBottom(p)) {
-            generateBlock()
-        }
     }
 }
 
