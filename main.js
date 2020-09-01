@@ -14,7 +14,7 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE) // ctx의 크기를 조정. BLOCK_SIZE * BLOCK
 
 let board = new Board()
 
-let dt = 0, step = 0.4, now = timestamp(), last = timestamp()
+let dt = 0, step = 0.8, now = timestamp(), last = timestamp()
 
 function animate() {
     now = timestamp()
@@ -31,16 +31,13 @@ function update(idt) {
     dt = dt + idt
     if (dt > step) {
         dt = dt - step
-        const p = moves[KEYS.DOWN](board.piece)
+        let p = moves[KEYS.DOWN](board.piece)
         if (!board.isBottom(p)) {
-            board.clearData(board.piece)
-            board.piece.remove()
-            board.piece.y++
-            board.piece.draw(currentShape)
-            board.setData(board.piece)
+            board.moveBlock(p)
         } else {
+            board.setData(board.piece)
             board.removeLine()
-            generateBlock()
+            board.generateBlock()
             animate()
         }
     }
@@ -51,75 +48,38 @@ function play() {
         isPlay = true
         board.reset()
         board.getEmptyBoard()
-        generateBlock()
+        board.generateBlock()
         animate()
     }
 }
 
-function generateBlock() {
-    currentShape = nextShape
-    currentRotation = 3
-    nextShape = Math.floor(Math.random() * colorList.length)
-    let nextPiece = new Piece(nctx, nextShape, 0)
-    const { width, height } = nctx.canvas;
-    nctx.clearRect(0, 0, width, height)
-    nextPiece.draw(nextShape)
-    let piece = new Piece(ctx, currentShape, 4)
-    board.piece = piece
-    piece.draw(currentShape)
-    board.setData(piece)
-    /*nctx.fillStyle = colorList[nextShape]
-        for (let y = 0; y < 4; y++) {
-        for (let x = 0; x < 4; x++) {
-            if (shapes[nextShape][3] & (0x8000 >> (y * 4 + x))) {
-                nctx.fillRect(x, y, 1, 1)
-            }
-        }
-    }*/
-}
-
 moves = {
+    [KEYS.UP]: (p) => ({ ...p}),
     [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }), // ...p (펼침 연산자) p를 얕은 복사
     [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
-    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 })
-}
-
-function keyUp() {
-    let p = board.piece
-    board.piece.remove()
-    board.clearData(p)
-    p.rotateBlock()
-    if (!board.valid(p)) {
-        p.restoreBlock()
-        board.piece.draw(currentShape)
-    }
-    else {
-        board.piece.draw(currentShape)
-    }
-    board.setData(p)
-}
-
-function moveBlock(p) {
-    const originalPiece = ({ ...board.piece })
-    board.clearData(board.piece)
-    if (board.valid(p)) {
-        board.piece.remove()
-        board.piece.move(p)
-        board.piece.draw(currentShape)
-        board.setData(p) // board의 grid에 현재 블록이 들어있는 칸을 표시
-    }
-    else {
-        board.setData(originalPiece)
-    }
+    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
+    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1})
 }
 
 document.addEventListener('keydown', event => {
-    if (event.keyCode == KEYS.UP) {
-        keyUp()
+    let p = moves[event.keyCode](board.piece)
+    if (event.keyCode === KEYS.UP) {
+        board.changeShape()
     }
-    else if (moves[event.keyCode]) {
+    else if (event.keyCode === KEYS.SPACE) {
+        board.piece.remove()
+        board.clearData(board.piece)
+        while(board.valid(p)) {
+            board.piece.move(p)
+            p = moves[KEYS.DOWN](board.piece)
+        }
+        p = moves[KEYS.UP](board.piece)
+        board.piece.move(p)
+        board.setData(board.piece)
+        board.piece.draw(currentShape)
+    }
+    if (moves[event.keyCode]) {
         event.preventDefault()
-        let p = moves[event.keyCode](board.piece)
-        moveBlock(p)
+        board.moveBlock(p)
     }
 })

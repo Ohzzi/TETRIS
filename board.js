@@ -1,13 +1,6 @@
 class Board {
     grid
     piece
-    /*ctx
-    nctx
-
-    constructor(ctx, nctx) {
-        this.ctx = ctx
-        this.nctx = nctx
-    }*/
 
     reset() {
         this.grid = this.getEmptyBoard()
@@ -21,6 +14,25 @@ class Board {
             // Array(COLS)로 COLS 크기의 Array 객체를 생성하고 0으로 fill
         )
     }
+
+    generateBlock() {
+        currentShape = nextShape
+        currentRotation = 3
+        let piece = new Piece(ctx, 4)
+        this.piece = piece
+        piece.draw(currentShape)
+        this.setData(piece)
+        this.setNext()
+    }
+
+    setNext() {
+        nextShape = Math.floor(Math.random() * colorList.length)
+        let nextPiece = new Piece(nctx, 0)
+        const { width, height } = nctx.canvas;
+        nctx.clearRect(0, 0, width, height)
+        nextPiece.draw(nextShape)
+    }
+
 
     setData(p) {
         for (let y = 0; y < 4; y++) {
@@ -74,7 +86,7 @@ class Board {
             }
         }
     }
-
+    
     removeLine() {
         this.grid.forEach((row, y) => {
             // 모든 값이 0보다 큰지 비교한다.
@@ -96,10 +108,37 @@ class Board {
                     this.piece.ctx.fillRect(x, y, 1, 1)
                 }
                 else {
-                    this.piece.ctx.fillStyle = 'white'
-                    this.piece.ctx.fillRect(x, y, 1, 1)
+                    this.piece.ctx.clearRect(x, y, 1, 1)
                 }
             })
         })
+    }
+
+    changeShape() {
+        this.piece.remove()
+        this.clearData(this.piece)
+        this.piece.rotateBlock()
+        if (!this.valid(this.piece)) {
+            this.piece.restoreBlock()
+            this.piece.draw(currentShape)
+        }
+        else {
+            this.piece.draw(currentShape)
+        }
+        //this.setData(this.piece)
+    }
+
+    moveBlock(p) {
+        const originalPiece = ({ ...this.piece })
+        this.clearData(this.piece)
+        if (this.valid(p)) {
+            this.piece.remove()
+            this.piece.move(p)
+            this.piece.draw(currentShape)
+            //this.setData(p) // board의 grid에 현재 블록이 들어있는 칸을 표시
+        }
+        else {
+            this.setData(originalPiece)
+        }
     }
 }

@@ -1,32 +1,16 @@
 class Piece {
     x
     y
-    color
     ctx
 
-    /*constructor(ctx) {
+    constructor(ctx, pos) {
         this.ctx = ctx
-        nextShape = Math.floor(Math.random() * colorList.length)
-        this.spawn(Math.floor(Math.random() * colorList.length))
-    }
-
-    spawn(rand) {
-        currentShape = nextShape
-        nextShape = rand
-        this.color = colorList[rand]
-        this.x = 4
-        this.y = 0
-    }*/
-
-    constructor(ctx, shape, pos) {
-        this.ctx = ctx
-        this.color = colorList[shape]
         this.x = pos
         this.y = 0
     }
 
     draw(shape) {
-        this.ctx.fillStyle = this.color
+        this.ctx.fillStyle = colorList[shape]
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[shape][currentRotation] & (0x8000 >> (y * 4 + x))) {
@@ -44,11 +28,10 @@ class Piece {
     }
 
     remove() {
-        this.ctx.fillStyle = 'white'
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    this.ctx.fillRect(this.x + x, this.y + y, 1, 1)
+                    this.ctx.clearRect(this.x + x, this.y + y, 1, 1)
                 }
             }
         }
@@ -57,6 +40,11 @@ class Piece {
     move(p) {
         this.x = p.x
         this.y = p.y
+    }
+
+    sub(x, y) {
+        this. x = x
+        this. y = y
     }
 
     rotateBlock() {
