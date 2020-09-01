@@ -8,7 +8,7 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: 380px 200px
+    grid-template-columns: 280px 380px
 }
 
 .rightColumn {
@@ -25,5 +25,15 @@ body {
     background-color: #4caf50;
     font-size: 16px;
     padding: 15px 30px;
+    margin-right: 8px;
     cursor: pointer;
+}
+
+.next {
+    margin-top: 36px;
+    padding-right: 36px;
+    padding-top: 12px;
+    padding-left: 24px;
+    display: flex;
+    justify-content: space-between;
 }
