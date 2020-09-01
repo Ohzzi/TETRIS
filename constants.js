@@ -14,9 +14,13 @@ const KEYS = {
 }
 Object.freeze(KEYS) // KEYS 열거형을 불변하게 만듦
 
-let currentShape = 0, currentRotation = 3, isPlay = false
-
 const colorList = ['#dc143c', '#ff8c00', '#00ffff', '#7fff00', '#ffd700', '#ff69b4', '#000080']
+
+let currentShape = 0,
+    nextShape = Math.floor(Math.random() * colorList.length),
+    currentRotation = 3,
+    isPlay = false
+
 
 /*const shapes = [
     [0x4640, 0x0E40, 0x4C40, 0x4E00], // 'T' 

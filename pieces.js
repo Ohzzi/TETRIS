@@ -4,23 +4,32 @@ class Piece {
     color
     ctx
 
-    constructor(ctx) {
+    /*constructor(ctx) {
         this.ctx = ctx
+        nextShape = Math.floor(Math.random() * colorList.length)
         this.spawn(Math.floor(Math.random() * colorList.length))
     }
 
     spawn(rand) {
-        currentShape = rand
+        currentShape = nextShape
+        nextShape = rand
         this.color = colorList[rand]
         this.x = 4
         this.y = 0
+    }*/
+
+    constructor(ctx, shape, pos) {
+        this.ctx = ctx
+        this.color = colorList[shape]
+        this.x = pos
+        this.y = 0
     }
 
-    draw() {
+    draw(shape) {
         this.ctx.fillStyle = this.color
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
-                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
+                if (shapes[shape][currentRotation] & (0x8000 >> (y * 4 + x))) {
                     this.ctx.fillRect(this.x + x, this.y + y, 1, 1)
                 }
                 /*

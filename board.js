@@ -1,6 +1,13 @@
 class Board {
     grid
     piece
+    /*ctx
+    nctx
+
+    constructor(ctx, nctx) {
+        this.ctx = ctx
+        this.nctx = nctx
+    }*/
 
     reset() {
         this.grid = this.getEmptyBoard()
@@ -76,7 +83,6 @@ class Board {
                 this.grid.splice(y, 1)
                 // 맨 위에 0으로 채워진 행을 추가한다.
                 this.grid.unshift(Array(COLS).fill(0))
-                console.table(this.grid)
                 this.fillBoard()
             }
         })
