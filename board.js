@@ -44,6 +44,16 @@ class Board {
         nextPiece.draw(nextShape)
     }
 
+    removePiece() {
+        this.piece.remove()
+        this.clearData(this.piece)
+    }
+
+    drawPiece(p, shape) {
+        this.piece.move(p)
+        this.setData(this.piece)
+        this.piece.draw(shape)
+    }
 
     setData(p) {
         for (let y = 0; y < 4; y++) {
@@ -146,7 +156,6 @@ class Board {
         else {
             this.piece.draw(currentShape)
         }
-        //this.setData(this.piece)
     }
 
     moveBlock(p) {
@@ -156,7 +165,6 @@ class Board {
             this.piece.remove()
             this.piece.move(p)
             this.piece.draw(currentShape)
-            //this.setData(p) // board의 grid에 현재 블록이 들어있는 칸을 표시
         }
         else {
             this.setData(originalPiece)
@@ -164,7 +172,7 @@ class Board {
     }
 
     setLevel(score) {
-        let level = parseInt(score / 200) + 1
+        let level = parseInt(score / 2000) + 1
         if(level > 10) return 10
         else return level
     }

@@ -17,7 +17,7 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE) // ctx의 크기를 조정. BLOCK_SIZE * BLOCK
 
 let board = new Board()
 
-let dt = 0, step = 0.8, now = timestamp(), last = timestamp()
+let dt = 0, step = 0, now = timestamp(), last = timestamp()
 let accountValues = {
     score: 0,
     level: 1,
@@ -26,7 +26,7 @@ let accountValues = {
 
 function animate() {
     now = timestamp()
-    update(Math.min(1, (now - last) / 1000.0))
+    update(Math.min(1, (now - last) / 400.0))
     last = now
     requestId = window.requestAnimationFrame(animate)
 }
@@ -36,7 +36,8 @@ function timestamp() {
 }
 
 function update(idt) {
-    step = 1 - 0.05 * account.level
+    if (level <= 5) step = 1.0 - 0.05 * account.level
+    else step = 0.75 - 0.1 * (account.level - 5)
     dt = dt + idt
     if (dt > step) {
         dt = dt - step
@@ -89,30 +90,20 @@ function handleKeyPress(event) {
     }
     else if (event.keyCode === KEYS.SPACE) {
         isDropped = true
-        board.piece.remove()
-        board.clearData(board.piece)
+        board.removePiece()
         while (board.valid(p)) {
             board.piece.move(p)
             p = moves[KEYS.DOWN](board.piece)
         }
         p = moves[KEYS.UP](board.piece)
-        board.piece.move(p)
-        board.setData(board.piece)
-        board.piece.draw(currentShape)
+        board.drawPiece(p, currentShape)
         account.score += POINTS.HARD_DROP
     }
     else if (moves[event.keyCode]) {
         event.preventDefault()
         board.moveBlock(p)
-        /*if(event.keyCode == KEYS.DOWN) {
-            account.score += POINTS.SOFT_DROP
-        }*/
     }
 }
-
-/*function addEventListener() {
-    document.addEventListener('keydown', handleKeyPress)
-}*/
 
 function updateAccount(key, value) {
     let element = document.getElementById(key)
