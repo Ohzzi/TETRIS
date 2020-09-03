@@ -3,6 +3,9 @@ const ctx = canvas.getContext('2d')
 const next = document.getElementById('next')
 const nctx = next.getContext('2d')
 
+const TITLE = document.getElementById('title')
+const LEVEL = document.getElementById('level')
+
 nctx.canvas.width = 4 * BLOCK_SIZE
 nctx.canvas.height = 4 * BLOCK_SIZE
 nctx.scale(BLOCK_SIZE, BLOCK_SIZE)
@@ -15,12 +18,17 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE) // ctx의 크기를 조정. BLOCK_SIZE * BLOCK
 let board = new Board()
 
 let dt = 0, step = 0.8, now = timestamp(), last = timestamp()
+let accountValues = {
+    score: 0,
+    level: 1,
+    lines: 0
+}
 
 function animate() {
     now = timestamp()
     update(Math.min(1, (now - last) / 1000.0))
     last = now
-    window.requestAnimationFrame(animate)
+    requestId = window.requestAnimationFrame(animate)
 }
 
 function timestamp() {
@@ -28,6 +36,7 @@ function timestamp() {
 }
 
 function update(idt) {
+    step = 1 - 0.05 * account.level
     dt = dt + idt
     if (dt > step) {
         dt = dt - step
@@ -36,9 +45,19 @@ function update(idt) {
             board.moveBlock(p)
         } else {
             board.setData(board.piece)
-            board.removeLine()
-            board.generateBlock()
-            animate()
+            board.clearLines()
+            isGameOver = board.checkGameOver()
+            if (!isGameOver) {
+                if(!isDropped) account.score += POINTS.SOFT_DROP
+                else isDropped = false
+                board.generateBlock()
+                animate()
+            }
+            else {
+                window.cancelAnimationFrame(requestId)
+                TITLE.textContent = 'Game Over'
+                document.removeEventListener('keydown', handleKeyPress)
+            }
         }
     }
 }
@@ -46,6 +65,8 @@ function update(idt) {
 function play() {
     if (!isPlay) {
         isPlay = true
+        LEVEL.textContent = account.level
+        document.addEventListener('keydown', handleKeyPress)
         board.reset()
         board.getEmptyBoard()
         board.generateBlock()
@@ -54,22 +75,23 @@ function play() {
 }
 
 moves = {
-    [KEYS.UP]: (p) => ({ ...p}),
+    [KEYS.UP]: (p) => ({ ...p }),
     [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }), // ...p (펼침 연산자) p를 얕은 복사
     [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
     [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
-    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1})
+    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1 })
 }
 
-document.addEventListener('keydown', event => {
+function handleKeyPress(event) {
     let p = moves[event.keyCode](board.piece)
     if (event.keyCode === KEYS.UP) {
         board.changeShape()
     }
     else if (event.keyCode === KEYS.SPACE) {
+        isDropped = true
         board.piece.remove()
         board.clearData(board.piece)
-        while(board.valid(p)) {
+        while (board.valid(p)) {
             board.piece.move(p)
             p = moves[KEYS.DOWN](board.piece)
         }
@@ -77,9 +99,32 @@ document.addEventListener('keydown', event => {
         board.piece.move(p)
         board.setData(board.piece)
         board.piece.draw(currentShape)
+        account.score += POINTS.HARD_DROP
     }
-    if (moves[event.keyCode]) {
+    else if (moves[event.keyCode]) {
         event.preventDefault()
         board.moveBlock(p)
+        /*if(event.keyCode == KEYS.DOWN) {
+            account.score += POINTS.SOFT_DROP
+        }*/
+    }
+}
+
+/*function addEventListener() {
+    document.addEventListener('keydown', handleKeyPress)
+}*/
+
+function updateAccount(key, value) {
+    let element = document.getElementById(key)
+    if (element) {
+        element.textContent = value
+    }
+}
+
+let account = new Proxy(accountValues, {
+    set: (target, key, value) => {
+        target[key] = value
+        updateAccount(key, value)
+        return true
     }
 })

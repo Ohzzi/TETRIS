@@ -20,9 +20,20 @@ class Board {
         currentRotation = 3
         let piece = new Piece(ctx, 4)
         this.piece = piece
-        piece.draw(currentShape)
-        this.setData(piece)
-        this.setNext()
+        if (this.valid(this.piece)) {
+            piece.draw(currentShape)
+            this.setData(piece)
+            this.setNext()
+        }
+    }
+
+    checkGameOver() {
+        for (let x = 4; x < 8; x++) {
+            if (this.grid[1][x] !== 0) {
+                return true
+            }
+        }
+        return false
     }
 
     setNext() {
@@ -86,18 +97,28 @@ class Board {
             }
         }
     }
-    
-    removeLine() {
+
+    clearLines() {
+        let lines = 0
         this.grid.forEach((row, y) => {
             // 모든 값이 0보다 큰지 비교한다.
             if (row.every(value => value > 0)) {
                 // 행을 삭제한다.
+                lines++
                 this.grid.splice(y, 1)
                 // 맨 위에 0으로 채워진 행을 추가한다.
                 this.grid.unshift(Array(COLS).fill(0))
                 this.fillBoard()
             }
         })
+        if (lines > 0) {
+            account.score += this.getLineClearPoints(lines)
+        }
+        account.level = this.setLevel(account.score)
+    }
+
+    getLineClearPoints(lines) {
+        return lines === 1 ? POINTS.SINGLE : lines === 2 ? POINTS.DOUBLE : lines === 3 ? POINTS.TRIPLE : lines === 4 ? POINTS.TETRIS : 0;
     }
 
     fillBoard() {
@@ -140,5 +161,11 @@ class Board {
         else {
             this.setData(originalPiece)
         }
+    }
+
+    setLevel(score) {
+        let level = parseInt(score / 200) + 1
+        if(level > 10) return 10
+        else return level
     }
 }

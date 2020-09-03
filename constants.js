@@ -2,6 +2,16 @@ const COLS = 12
 const ROWS = 20
 const BLOCK_SIZE = 30
 
+const POINTS = {
+    SINGLE: 100,
+    DOUBLE: 300,
+    TRIPLE: 500,
+    TETRIS: 800,
+    SOFT_DROP: 1,
+    HARD_DROP: 2
+}
+Object.freeze(POINTS)
+
 const KEYS = {
     ESC: 27,
     SPACE: 32,
@@ -19,8 +29,9 @@ const colorList = ['#dc143c', '#ff8c00', '#00ffff', '#7fff00', '#ffd700', '#ff69
 let currentShape = 0,
     nextShape = Math.floor(Math.random() * colorList.length),
     currentRotation = 3,
-    isPlay = false
-
+    isPlay = false,
+    isGameOver = false,
+    isDropped = false
 
 /*const shapes = [
     [0x4640, 0x0E40, 0x4C40, 0x4E00], // 'T' 
