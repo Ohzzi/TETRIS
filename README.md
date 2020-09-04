@@ -1,6 +1,8 @@
 # TETRIS
 JavaScript로 만드는 테트리스
 
+https://ohzzi.github.io/TETRIS/
+
 How To Use
 
 KEY UP : 회전  
