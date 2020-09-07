@@ -50,9 +50,10 @@ function update(idt) {
             isGameOver = board.checkGameOver()
             if (!isGameOver) {
                 if(!isDropped) account.score += POINTS.SOFT_DROP
-                else isDropped = false
+                else {isDropped = false
                 board.generateBlock()
                 animate()
+                }
             }
             else {
                 window.cancelAnimationFrame(requestId)
@@ -75,14 +76,6 @@ function play() {
     }
 }
 
-moves = {
-    [KEYS.UP]: (p) => ({ ...p }),
-    [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }), // ...p (펼침 연산자) p를 얕은 복사
-    [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
-    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
-    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1 })
-}
-
 function handleKeyPress(event) {
     let p = moves[event.keyCode](board.piece)
     if (event.keyCode === KEYS.UP) {
@@ -92,7 +85,7 @@ function handleKeyPress(event) {
         isDropped = true
         board.removePiece()
         while (board.valid(p)) {
-            board.piece.move(p)
+            board.piece.setPosition(p)
             p = moves[KEYS.DOWN](board.piece)
         }
         p = moves[KEYS.UP](board.piece)
@@ -119,3 +112,11 @@ let account = new Proxy(accountValues, {
         return true
     }
 })
+
+moves = {
+    [KEYS.UP]: (p) => ({ ...p }),
+    [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }), // ...p (펼침 연산자) p를 얕은 복사
+    [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
+    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
+    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1 })
+}

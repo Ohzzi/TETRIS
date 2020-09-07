@@ -9,11 +9,10 @@ class Board {
     getEmptyBoard() {
         return Array.from(
             { length: ROWS }, () => Array(COLS).fill(0)
-            // 새로운 배열 얕은 복사로 return
-            // length 속성을 ROWS로 설정
-            // Array(COLS)로 COLS 크기의 Array 객체를 생성하고 0으로 fill
         )
     }
+    /* Return new Array by shallow copy. Set ROWS as the length property
+    /* Construct a COLS-sized Array object and fill it with 0  */
 
     generateBlock() {
         currentShape = nextShape
@@ -22,7 +21,6 @@ class Board {
         this.piece = piece
         if (this.valid(this.piece)) {
             piece.draw(currentShape)
-            this.setData(piece)
             this.setNext()
         }
     }
@@ -50,7 +48,7 @@ class Board {
     }
 
     drawPiece(p, shape) {
-        this.piece.move(p)
+        this.piece.setPosition(p)
         this.setData(this.piece)
         this.piece.draw(shape)
     }
@@ -62,8 +60,9 @@ class Board {
                     this.grid[p.y + y][p.x + x] = currentShape + 1
                 }
             }
-        } // 블럭이 차 있는 칸에 데이터를 입력
+        } 
     }
+    /* Set data in a block */
 
     clearData(p) {
         for (let y = 0; y < 4; y++) {
@@ -72,20 +71,22 @@ class Board {
                     this.grid[p.y + y][p.x + x] = 0
                 }
             }
-        } // 블럭이 차 있는 칸에 데이터 삭제
+        }
     }
+    /* Clear data in a block */
 
     valid(p) {
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    if (p.x + x > 11 || p.x + x < 0) return false // 블럭이 좌우 아래쪽을 넘어갔을 때
+                    if (p.x + x > 11 || p.x + x < 0) return false
+                    /* When the block goes over the side lines */
                     if (p.y + y > 19) {
                         return false
-                    } // 블럭이 아래쪽을 넘어갔을 때
+                    } /* When the block goes over the bottom line */
                     if (this.grid[p.y + y][p.x + x]) {
                         return false
-                    } // 블럭이 이미 쌓여 있는 다른 블럭과 부딪혔을 때
+                    } /* When the block hits another block already stacked */
                 }
             }
         }
@@ -106,21 +107,23 @@ class Board {
                 if (p.y + max[x] > 19 || this.grid[p.y + max[x]][p.x + x]) return true
             }
         }
+        return false
     }
+    /* Determines if the block is the bottom space that can no longer be moved */
 
     clearLines() {
         let lines = 0
         this.grid.forEach((row, y) => {
-            // 모든 값이 0보다 큰지 비교한다.
             if (row.every(value => value > 0)) {
-                // 행을 삭제한다.
                 lines++
                 this.grid.splice(y, 1)
-                // 맨 위에 0으로 채워진 행을 추가한다.
                 this.grid.unshift(Array(COLS).fill(0))
                 this.fillBoard()
             }
         })
+        /* Compares whether all values ​​of each row in the grid are greater than 0,
+        /* deletes the row if it is greater than 0,
+        /* and adds a row filled with zeros at the top */
         if (lines > 0) {
             account.score += this.getLineClearPoints(lines)
         }
@@ -128,6 +131,7 @@ class Board {
     }
 
     getLineClearPoints(lines) {
+        account.lines += lines
         return lines === 1 ? POINTS.SINGLE : lines === 2 ? POINTS.DOUBLE : lines === 3 ? POINTS.TRIPLE : lines === 4 ? POINTS.TETRIS : 0;
     }
 
@@ -147,7 +151,6 @@ class Board {
 
     changeShape() {
         this.piece.remove()
-        this.clearData(this.piece)
         this.piece.rotateBlock()
         if (!this.valid(this.piece)) {
             this.piece.restoreBlock()
@@ -163,7 +166,7 @@ class Board {
         this.clearData(this.piece)
         if (this.valid(p)) {
             this.piece.remove()
-            this.piece.move(p)
+            this.piece.setPosition(p);
             this.piece.draw(currentShape)
         }
         else {
@@ -173,7 +176,7 @@ class Board {
 
     setLevel(score) {
         let level = parseInt(score / 2000) + 1
-        if(level > 10) return 10
+        if (level > 10) return 10
         else return level
     }
 }
