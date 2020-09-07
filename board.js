@@ -1,6 +1,7 @@
 class Board {
     grid
     piece
+    ghost
 
     reset() {
         this.grid = this.getEmptyBoard()
@@ -17,10 +18,9 @@ class Board {
     generateBlock() {
         currentShape = nextShape
         currentRotation = 3
-        let piece = new Piece(ctx, 4)
-        this.piece = piece
+        this.piece = new Piece(ctx, 4)
         if (this.valid(this.piece)) {
-            piece.draw(currentShape)
+            this.piece.draw(currentShape)
             this.setNext()
         }
     }
@@ -147,6 +147,15 @@ class Board {
                 }
             })
         })
+    }
+
+    makeGhost(p) {
+        ghost = new Piece(ctx, 4)
+        this.ghost.setPosition(this.piece)
+        while (this.valid(ghost)) {
+            this.ghost.
+            p = moves[KEYS.DOWN](board.piece)
+        }
     }
 
     changeShape() {
