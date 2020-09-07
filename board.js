@@ -22,6 +22,7 @@ class Board {
         if (this.valid(this.piece)) {
             this.piece.draw(currentShape)
             this.setNext()
+            this.makeGhost()
         }
     }
 
@@ -60,7 +61,7 @@ class Board {
                     this.grid[p.y + y][p.x + x] = currentShape + 1
                 }
             }
-        } 
+        }
     }
     /* Set data in a block */
 
@@ -149,37 +150,45 @@ class Board {
         })
     }
 
-    makeGhost(p) {
-        ghost = new Piece(ctx, 4)
+    makeGhost() {
+        this.ghost = new Piece(ctx, 4)
         this.ghost.setPosition(this.piece)
-        while (this.valid(ghost)) {
-            this.ghost.
-            p = moves[KEYS.DOWN](board.piece)
+        let p = { ...this.ghost }
+        while (this.valid(p)) {
+            this.ghost.setPosition(p)
+            p.y++
         }
+        this.ghost.ctx.fillStyle = 'grey'
+        this.ghost.fillBlock(currentShape)
+    }
+
+    removeGhost() {
+        this.ghost.remove()
     }
 
     changeShape() {
         this.piece.remove()
+        this.ghost.remove()
         this.piece.rotateBlock()
         if (!this.valid(this.piece)) {
             this.piece.restoreBlock()
+            this.makeGhost()
             this.piece.draw(currentShape)
         }
         else {
+            this.makeGhost()
             this.piece.draw(currentShape)
         }
     }
 
     moveBlock(p) {
-        const originalPiece = ({ ...this.piece })
         this.clearData(this.piece)
         if (this.valid(p)) {
+            this.ghost.remove()
             this.piece.remove()
             this.piece.setPosition(p);
+            this.makeGhost()
             this.piece.draw(currentShape)
-        }
-        else {
-            this.setData(originalPiece)
         }
     }
 

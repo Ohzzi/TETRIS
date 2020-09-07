@@ -40,6 +40,7 @@ function update(idt) {
     else step = 0.75 - 0.1 * (account.level - 5)
     dt = dt + idt
     if (dt > step) {
+        document.addEventListener('keydown', handleKeyPress)
         dt = dt - step
         let p = moves[KEYS.DOWN](board.piece)
         if (!board.isBottom(p)) {
@@ -90,6 +91,7 @@ function handleKeyPress(event) {
         p = moves[KEYS.UP](board.piece)
         board.drawPiece(p, currentShape)
         account.score += POINTS.HARD_DROP
+        document.removeEventListener('keydown', handleKeyPress)
     }
     else if (moves[event.keyCode]) {
         event.preventDefault()

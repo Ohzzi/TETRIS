@@ -11,6 +11,10 @@ class Piece {
 
     draw(shape) {
         this.ctx.fillStyle = colorList[shape]
+        this.fillBlock(shape)
+    }
+
+    fillBlock(shape) {
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[shape][currentRotation] & (0x8000 >> (y * 4 + x))) {
