@@ -17,8 +17,7 @@ class Board {
     generateBlock() {
         currentShape = nextShape
         currentRotation = 3
-        let piece = new Piece(ctx, 4)
-        this.piece = piece
+        this.piece = new Piece(ctx, 4)
         if (this.valid(this.piece)) {
             piece.draw(currentShape)
             this.setNext()
