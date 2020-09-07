@@ -49,11 +49,10 @@ function update(idt) {
             board.clearLines()
             isGameOver = board.checkGameOver()
             if (!isGameOver) {
-                if(!isDropped) account.score += POINTS.SOFT_DROP
-                else {isDropped = false
+                if (!isDropped) account.score += POINTS.SOFT_DROP
+                else isDropped = false
                 board.generateBlock()
                 animate()
-                }
             }
             else {
                 window.cancelAnimationFrame(requestId)
