@@ -12,8 +12,10 @@ nctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 ctx.canvas.width = COLS * BLOCK_SIZE
 ctx.canvas.height = ROWS * BLOCK_SIZE
-ctx.scale(BLOCK_SIZE, BLOCK_SIZE) // ctx의 크기를 조정. BLOCK_SIZE * BLOCK_SIZE를 1로
-// 이렇게 설정해주면 picesc.js 에서 fillRect를 호출할때 크기 인자로 1, 1을 주어도 해당 영역이 칠해짐
+ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
+/* Resize ctx so that BLOCK_SIZE * BLOCK_SIZE becomes 1 
+/* Then when we call fillRect in pieces.js, 
+/* even if (1, 1) are given as size factors, the corresponding area is painted. */
 
 let board = new Board()
 
@@ -116,8 +118,9 @@ let account = new Proxy(accountValues, {
 
 moves = {
     [KEYS.UP]: (p) => ({ ...p }),
-    [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }), // ...p (펼침 연산자) p를 얕은 복사
+    [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }),
     [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
     [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
     [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1 })
 }
+/* Shallow coppy */
