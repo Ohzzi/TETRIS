@@ -19,12 +19,11 @@ class Board {
         currentShape = nextShape
         currentRotation = 0
         this.piece = new Piece(ctx, 4)
-        if (this.valid(this.piece)) {
-            this.piece.draw(currentShape)
-            this.setNext()
-            this.makeGhost()
-        }
+        this.piece.draw(currentShape)
+        this.setNext()
+        this.makeGhost()
     }
+    /* Generate new piece and ghost */
 
     checkGameOver() {
         for (let x = 4; x < 8; x++) {
@@ -34,6 +33,8 @@ class Board {
         }
         return false
     }
+    /* The new piece will be generated at the first column
+    /* So if this.grid[1][4] ~ this.grid[1][7] have value, game over */
 
     setNext() {
         nextShape = Math.floor(Math.random() * colorList.length)
@@ -42,6 +43,7 @@ class Board {
         nctx.clearRect(0, 0, width, height)
         nextPiece.draw(nextShape)
     }
+    /* Make a piece which will be next */
 
     removePiece() {
         this.piece.remove()
@@ -93,25 +95,6 @@ class Board {
         }
         return true
     }
-
-    isBottom(p) {
-        let lowest = [-1, -1, -1, -1]
-        for (let x = 0; x < 4; x++) {
-            for (let y = 0; y < 4; y++) {
-                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    if (lowest[x] < y) lowest[x] = y
-                }
-            }
-        }
-        /* Calculate the coordinates at the lowest for every row */
-        for (let x = 0; x < 4; x++) {
-            if (lowest[x] !== -1) {
-                if (p.y + lowest[x] > 19 || this.grid[p.y + lowest[x]][p.x + x]) return true
-            }
-        }
-        return false
-    }
-    /* Determines if the block is the bottom space that can no longer be moved */
 
     clearLines() {
         let lines = 0
@@ -182,7 +165,7 @@ class Board {
         }
     }
 
-    moveBlock(p) {
+    movePiece(p) {
         this.clearData(this.piece)
         if (this.valid(p)) {
             this.piece.remove()

@@ -37,6 +37,7 @@ function animate() {
         requestId = window.requestAnimationFrame(animate)
     }
 }
+/* If the game is paused, do not animate the game */
 
 function timestamp() {
     return new Date().getTime()
@@ -47,12 +48,11 @@ function update(idt) {
     else step = 0.75 - 0.1 * (account.level - 5)
     dt = dt + idt
     if (dt > step) {
-        document.addEventListener('keydown', pause)
         document.addEventListener('keydown', handleKeyPress)
         dt = dt - step
         let p = moves[KEYS.DOWN](board.piece)
         if (board.valid(p)) {
-            board.moveBlock(p)
+            board.movePiece(p)
         } else {
             board.setData(board.piece)
             board.clearLines()
@@ -61,7 +61,6 @@ function update(idt) {
                 if (!isDropped) account.score += POINTS.SOFT_DROP
                 else isDropped = false
                 board.generateBlock()
-                animate()
             }
             else {
                 window.cancelAnimationFrame(requestId)
@@ -74,6 +73,7 @@ function update(idt) {
 
 function play() {
     if (!isPlay) {
+        document.addEventListener('keydown', pause)
         isPlay = true
         LEVEL.textContent = account.level
         board.reset()
@@ -104,6 +104,7 @@ function handleKeyPress(event) {
     if (event.keyCode === KEYS.UP) {
         board.changeShape()
     }
+    /* If KEY.UP is pressed, change the shape of piece */
     else if (event.keyCode === KEYS.SPACE) {
         isDropped = true
         board.removePiece()
@@ -116,10 +117,12 @@ function handleKeyPress(event) {
         account.score += POINTS.HARD_DROP
         document.removeEventListener('keydown', handleKeyPress)
     }
+    /* If Space bar is pressed, do hard drop */
     else if (moves[event.keyCode]) {
         event.preventDefault()
-        board.moveBlock(p)
+        board.movePiece(p)
     }
+    /* Else move a piece */
 }
 
 function updateAccount(key, value) {
@@ -128,6 +131,7 @@ function updateAccount(key, value) {
         element.textContent = value
     }
 }
+/* If accountValues are updated, the values in the web page will be changed */
 
 let account = new Proxy(accountValues, {
     set: (target, key, value) => {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="style.css">
     <title>Tetris</title>
     <script src="constants.js" defer></script>
     <script src="board.js" defer></script>
@@ -15,20 +15,37 @@
 
 <body>
     <div class="grid">
-        <div class="rightColumn">
-            <div>
-                <h1 id="title">TETRIS</h1>
-                <p>Score: <span id="score">0</span></p>
-                <p>Lines: <span id="lines">0</span></p>
-                <p>Level: <span id="level">0</span></p>
-                <div class="next">
-                    <span>NEXT</span>
-                    <canvas id="next"></canvas>
+        <canvas id="board" class="gameBoard"></canvas>
+        <div class="rest">
+            <div class="leftColumn">
+                <div>
+                    <h1 id="title">TETRIS</h1>
+                    <p>Score: <span id="score">0</span></p>
+                    <p>Lines: <span id="lines">0</span></p>
+                    <p>Level: <span id="level">0</span></p>
+                    <div class="next">
+                        <span>NEXT</span>
+                        <canvas id="next"></canvas>
+                    </div>
+                </div>
+                <button onclick="play()" class="play-button">Play</button>
+            </div>
+            <div class="howToPlay">
+                <div class="howToPlayText"> How To Play </div>
+                <div class="list">
+                    <li>↑ : Rotate</li>
+                    <li>↓ : Move down</li>
+                    <li>← : Move left</li>
+                    <li>→ : Move right</li>
+                    <li>SPACE : Hard drop</li>
+                    <li>ESC : Pause</li>
                 </div>
             </div>
-            <button onclick="play()" class="play-button">Play</button>
+            <div class="ranking">
+                <div class="text">Ranking</div>
+                <div class="explain">Coming Soon</div>
+            </div>
         </div>
-        <canvas id="board" class="gameBoard"></canvas>
     </div>
 </body>
 
