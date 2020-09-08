@@ -17,7 +17,7 @@ class Board {
 
     generateBlock() {
         currentShape = nextShape
-        currentRotation = 3
+        currentRotation = 0
         this.piece = new Piece(ctx, 4)
         if (this.valid(this.piece)) {
             this.piece.draw(currentShape)
@@ -95,17 +95,18 @@ class Board {
     }
 
     isBottom(p) {
-        let max = [-1, -1, -1, -1]
+        let lowest = [-1, -1, -1, -1]
         for (let x = 0; x < 4; x++) {
             for (let y = 0; y < 4; y++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    if (max[x] < y) max[x] = y
+                    if (lowest[x] < y) lowest[x] = y
                 }
             }
         }
+        /* Calculate the coordinates at the lowest for every row */
         for (let x = 0; x < 4; x++) {
-            if (max[x] !== -1) {
-                if (p.y + max[x] > 19 || this.grid[p.y + max[x]][p.x + x]) return true
+            if (lowest[x] !== -1) {
+                if (p.y + lowest[x] > 19 || this.grid[p.y + lowest[x]][p.x + x]) return true
             }
         }
         return false
@@ -133,7 +134,7 @@ class Board {
 
     getLineClearPoints(lines) {
         account.lines += lines
-        return lines === 1 ? POINTS.SINGLE : lines === 2 ? POINTS.DOUBLE : lines === 3 ? POINTS.TRIPLE : lines === 4 ? POINTS.TETRIS : 0;
+        return lines === 1 ? POINTS.SINGLE : lines === 2 ? POINTS.DOUBLE : lines === 3 ? POINTS.TRIPLE : lines === 4 ? POINTS.TETRIS : 0
     }
 
     fillBoard() {
@@ -158,7 +159,7 @@ class Board {
             this.ghost.setPosition(p)
             p.y++
         }
-        this.ghost.ctx.fillStyle = 'grey'
+        this.ghost.ctx.fillStyle = '#E2E2E2'
         this.ghost.fillBlock(currentShape)
     }
 
@@ -184,8 +185,8 @@ class Board {
     moveBlock(p) {
         this.clearData(this.piece)
         if (this.valid(p)) {
-            this.ghost.remove()
             this.piece.remove()
+            this.ghost.remove()
             this.piece.setPosition(p);
             this.makeGhost()
             this.piece.draw(currentShape)

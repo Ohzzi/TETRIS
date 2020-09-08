@@ -1,7 +1,10 @@
 const canvas = document.getElementById('board')
 const ctx = canvas.getContext('2d')
+/* A canvas which draws a Tetris board */
+
 const next = document.getElementById('next')
 const nctx = next.getContext('2d')
+/* A canvas which draws a next block */
 
 const TITLE = document.getElementById('title')
 const LEVEL = document.getElementById('level')
@@ -28,9 +31,11 @@ let accountValues = {
 
 function animate() {
     now = timestamp()
-    update(Math.min(1, (now - last) / 400.0))
-    last = now
-    requestId = window.requestAnimationFrame(animate)
+    if(!isPaused) {
+        update(Math.min(1, (now - last) / 400.0))
+        last = now
+        requestId = window.requestAnimationFrame(animate)
+    }
 }
 
 function timestamp() {
@@ -42,10 +47,11 @@ function update(idt) {
     else step = 0.75 - 0.1 * (account.level - 5)
     dt = dt + idt
     if (dt > step) {
+        document.addEventListener('keydown', pause)
         document.addEventListener('keydown', handleKeyPress)
         dt = dt - step
         let p = moves[KEYS.DOWN](board.piece)
-        if (!board.isBottom(p)) {
+        if (board.valid(p)) {
             board.moveBlock(p)
         } else {
             board.setData(board.piece)
@@ -70,11 +76,26 @@ function play() {
     if (!isPlay) {
         isPlay = true
         LEVEL.textContent = account.level
-        document.addEventListener('keydown', handleKeyPress)
         board.reset()
         board.getEmptyBoard()
         board.generateBlock()
         animate()
+    }
+}
+
+function pause(event) {
+    if (event.keyCode === KEYS.ESC) {
+        if (!isPaused) {
+            document.removeEventListener('keydown', handleKeyPress)
+            isPaused = true
+            TITLE.textContent = 'Paused'
+        }
+        else {
+            document.addEventListener('keydown', handleKeyPress)
+            isPaused = false
+            TITLE.textContent = 'TETRIS'
+            animate()
+        }
     }
 }
 
