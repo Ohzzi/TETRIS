@@ -8,7 +8,7 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: 380px 800px;
+    grid-template-columns: 362px 1000px;
 }
 
 .rest {
@@ -20,6 +20,20 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-align: center;
+    border: solid 2px;
+}
+
+.leftColumn .next {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    margin-top: 24px;
+}
+
+.leftColumn span {
+    margin-bottom: 16px; 
 }
 
 .ranking {
@@ -32,11 +46,12 @@ body {
 }
 
 .play-button {
+    margin: 36px;
     background-color: #4caf50;
     font-size: 16px;
     padding: 15px 30px;
-    margin-right: 8px;
     cursor: pointer;
+    margin-bottom: 12px;
 }
 
 .next {
@@ -48,9 +63,11 @@ body {
     justify-content: space-between;
 }
 
+.howToPlay {
+    margin-left: 24px;
+}
 
-.howToPlayText,
-.ranking {
+.howToPlayText {
     font-size: 24px;
     margin-top: 24px;
     margin-bottom: 24px;
@@ -62,8 +79,14 @@ body {
 }
 
 .ranking {
+    font-size: 24px;
     display: flex;
     flex-direction: column;
+}
+
+.ranking .text {
+    width: 245px;
+    margin: 24px;
 }
 
 .ranking .explain {
@@ -72,5 +95,6 @@ body {
 }
 
 #title {
+    width: 340px;
     margin-bottom: 36px;
 }

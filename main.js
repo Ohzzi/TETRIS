@@ -17,8 +17,8 @@ ctx.canvas.width = COLS * BLOCK_SIZE
 ctx.canvas.height = ROWS * BLOCK_SIZE
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 /* Resize ctx so that BLOCK_SIZE * BLOCK_SIZE becomes 1 
-/* Then when we call fillRect in pieces.js, 
-/* even if (1, 1) are given as size factors, the corresponding area is painted. */
+* Then when we call fillRect in pieces.js, 
+* even if (1, 1) are given as size factors, the corresponding area is painted. */
 
 let board = new Board()
 
@@ -60,7 +60,7 @@ function update(idt) {
             if (!isGameOver) {
                 if (!isDropped) account.score += POINTS.SOFT_DROP
                 else isDropped = false
-                board.generateBlock()
+                board.generatePiece()
             }
             else {
                 window.cancelAnimationFrame(requestId)
@@ -77,8 +77,8 @@ function play() {
         isPlay = true
         LEVEL.textContent = account.level
         board.reset()
-        board.getEmptyBoard()
-        board.generateBlock()
+        //board.getEmptyBoard()
+        board.generatePiece()
         animate()
     }
 }
@@ -113,7 +113,7 @@ function handleKeyPress(event) {
             p = moves[KEYS.DOWN](board.piece)
         }
         p = moves[KEYS.UP](board.piece)
-        board.drawPiece(p, currentShape)
+        board.movePiece(p)
         account.score += POINTS.HARD_DROP
         document.removeEventListener('keydown', handleKeyPress)
     }

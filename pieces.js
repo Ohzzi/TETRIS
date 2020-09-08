@@ -21,13 +21,13 @@ class Piece {
                     this.ctx.fillRect(this.x + x, this.y + y, 1, 1)
                 }
                 /* For Example, shapes[0][0] = 0x4640 can be represented as 0100 0110 0100 0000
-                /* And 0x8000 is 1000 0000 0000 0000
-                /* So & operation gives 0000 0000 0000 0000
-                /* Then we paint nothing
-                /* If you do the >> operation in the next for, then we get 0100 0000 0000 0000
-                /* So 0100 0000 0000 0000 is returned by & operation
-                /* Then fillRect is called
-                /* If you go through all the loops, the cells containing data will be painted for 16 cells. */
+                * And 0x8000 is 1000 0000 0000 0000
+                * So & operation gives 0000 0000 0000 0000
+                * Then we paint nothing
+                * If you do the >> operation in the next for, then we get 0100 0000 0000 0000
+                * So 0100 0000 0000 0000 is returned by & operation
+                * Then fillRect is called
+                * If you go through all the loops, the cells containing data will be painted for 16 cells. */
             }
         }
     }

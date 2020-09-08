@@ -13,9 +13,9 @@ class Board {
         )
     }
     /* Return new Array by shallow copy. Set ROWS as the length property
-    /* Construct a COLS-sized Array object and fill it with 0  */
+    * Construct a COLS-sized Array object and fill it with 0  */
 
-    generateBlock() {
+    generatePiece() {
         currentShape = nextShape
         currentRotation = 0
         this.piece = new Piece(ctx, 4)
@@ -34,7 +34,7 @@ class Board {
         return false
     }
     /* The new piece will be generated at the first column
-    /* So if this.grid[1][4] ~ this.grid[1][7] have value, game over */
+    * So if this.grid[1][4] ~ this.grid[1][7] have value, game over */
 
     setNext() {
         nextShape = Math.floor(Math.random() * colorList.length)
@@ -107,8 +107,8 @@ class Board {
             }
         })
         /* Compares whether all values ​​of each row in the grid are greater than 0,
-        /* deletes the row if it is greater than 0,
-        /* and adds a row filled with zeros at the top */
+        * deletes the row if it is greater than 0,
+        * and adds a row filled with zeros at the top */
         if (lines > 0) {
             account.score += this.getLineClearPoints(lines)
         }
@@ -134,7 +134,7 @@ class Board {
         })
     }
     /* If there is data while traversing all the cells,
-    /* paint it with the appropriate color. */
+    * paint it with the appropriate color. */
 
     makeGhost() {
         this.ghost = new Piece(ctx, 4)
@@ -148,41 +148,40 @@ class Board {
         this.ghost.fillBlock(currentShape)
     }
     /* Draw a gray block on the floor
-    /* It is called 'ghost' */
+    * It is called 'ghost' */
 
     removeGhost() {
         this.ghost.remove()
     }
 
     changeShape() {
-        this.piece.remove()
-        this.ghost.remove()
+        this.removePiece()
         this.piece.rotateBlock()
         if (!this.valid(this.piece)) {
             this.piece.restoreBlock()
+        }
             this.makeGhost()
             this.piece.draw(currentShape)
-        }
-        else {
-            this.makeGhost()
-            this.piece.draw(currentShape)
-        }
     }
     /* Rotate the piece clockwise
-    /* If it is not valid, it returns to the original state */
+    * If it is not valid, it returns to the original state */
 
     movePiece(p) {
         this.clearData(this.piece)
         if (this.valid(p)) {
-            this.piece.remove()
-            this.ghost.remove()
+            this.removePiece()
             this.piece.setPosition(p);
             this.makeGhost()
             this.piece.draw(currentShape)
         }
     }
     /* Make this.piece at the position of parameter p
-    /* Then draw a new ghost */
+    * Then draw a new ghost */
+
+    removePiece() {
+        this.piece.remove()
+        this.ghost.remove()
+    }
 
     setLevel(score) {
         let level = parseInt(score / 2000) + 1
