@@ -47,11 +47,6 @@ class Piece {
         this.y = p.y
     }
 
-    sub(x, y) {
-        this. x = x
-        this. y = y
-    }
-
     rotateBlock() {
         currentRotation++
         if (currentRotation === 4) currentRotation = 0

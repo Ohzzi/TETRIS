@@ -11,6 +11,7 @@ const POINTS = {
     HARD_DROP: 5
 }
 Object.freeze(POINTS)
+/* Make the enum "POINTS" immutable */
 
 const KEYS = {
     ESC: 27,

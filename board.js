@@ -133,6 +133,8 @@ class Board {
             })
         })
     }
+    /* If there is data while traversing all the cells,
+    /* paint it with the appropriate color. */
 
     makeGhost() {
         this.ghost = new Piece(ctx, 4)
@@ -145,6 +147,8 @@ class Board {
         this.ghost.ctx.fillStyle = '#E2E2E2'
         this.ghost.fillBlock(currentShape)
     }
+    /* Draw a gray block on the floor
+    /* It is called 'ghost' */
 
     removeGhost() {
         this.ghost.remove()
@@ -164,6 +168,8 @@ class Board {
             this.piece.draw(currentShape)
         }
     }
+    /* Rotate the piece clockwise
+    /* If it is not valid, it returns to the original state */
 
     movePiece(p) {
         this.clearData(this.piece)
@@ -175,6 +181,8 @@ class Board {
             this.piece.draw(currentShape)
         }
     }
+    /* Make this.piece at the position of parameter p
+    /* Then draw a new ghost */
 
     setLevel(score) {
         let level = parseInt(score / 2000) + 1
