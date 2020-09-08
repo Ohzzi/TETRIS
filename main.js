@@ -54,7 +54,7 @@ function update(idt) {
         if (board.valid(p)) {
             board.movePiece(p)
         } else {
-            board.setData(board.piece)
+            board.freezePiece(board.piece)
             board.clearLines()
             isGameOver = board.checkGameOver()
             if (!isGameOver) {
@@ -77,7 +77,6 @@ function play() {
         isPlay = true
         LEVEL.textContent = account.level
         board.reset()
-        //board.getEmptyBoard()
         board.generatePiece()
         animate()
     }

@@ -6,7 +6,7 @@ class Board {
     reset() {
         this.grid = this.getEmptyBoard()
     }
-
+    
     getEmptyBoard() {
         return Array.from(
             { length: ROWS }, () => Array(COLS).fill(0)
@@ -34,7 +34,7 @@ class Board {
         return false
     }
     /* The new piece will be generated at the first column
-    * So if this.grid[1][4] ~ this.grid[1][7] have value, game over */
+    * So if this.grid[1][4] ~ this.grid[1][7] have value, the game will be over */
 
     setNext() {
         nextShape = Math.floor(Math.random() * colorList.length)
@@ -47,16 +47,22 @@ class Board {
 
     removePiece() {
         this.piece.remove()
-        this.clearData(this.piece)
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
+                    this.grid[this.piece.y + y][this.piece.x + x] = 0
+                }
+            }
+        }
     }
 
     drawPiece(p, shape) {
         this.piece.setPosition(p)
-        this.setData(this.piece)
+        this.freezePiece(this.piece)
         this.piece.draw(shape)
     }
 
-    setData(p) {
+    freezePiece(p) {
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
                 if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
@@ -65,18 +71,7 @@ class Board {
             }
         }
     }
-    /* Set data in a block */
-
-    clearData(p) {
-        for (let y = 0; y < 4; y++) {
-            for (let x = 0; x < 4; x++) {
-                if (shapes[currentShape][currentRotation] & (0x8000 >> (y * 4 + x))) {
-                    this.grid[p.y + y][p.x + x] = 0
-                }
-            }
-        }
-    }
-    /* Clear data in a block */
+    /* Make the piece immobile */
 
     valid(p) {
         for (let y = 0; y < 4; y++) {
@@ -167,7 +162,6 @@ class Board {
     * If it is not valid, it returns to the original state */
 
     movePiece(p) {
-        this.clearData(this.piece)
         if (this.valid(p)) {
             this.removePiece()
             this.piece.setPosition(p);
