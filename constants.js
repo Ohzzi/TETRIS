@@ -2,6 +2,18 @@ const COLS = 12
 const ROWS = 20
 const BLOCK_SIZE = 30
 
+const canvas = document.getElementById('board')
+const ctx = canvas.getContext('2d')
+/* A canvas which draws a Tetris board */
+
+const next = document.getElementById('next')
+const nctx = next.getContext('2d')
+/* A canvas which draws a next block */
+
+const TITLE = document.getElementById('title')
+const LEVEL = document.getElementById('level')
+const HIGHSCORE = document.getElementById('highScore')
+
 const POINTS = {
     SINGLE: 100,
     DOUBLE: 300,
@@ -45,3 +57,12 @@ const shapes = [
     [0x1700, 0x4460, 0x7400, 0x6220], // 'L' 
     [0x6600, 0x6600, 0x6600, 0x6600] // 'O'
 ]
+
+moves = {
+    [KEYS.UP]: (p) => ({ ...p }),
+    [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }),
+    [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
+    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
+    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1 })
+}
+/* Shallow coppy */

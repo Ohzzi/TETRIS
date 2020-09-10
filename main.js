@@ -1,13 +1,3 @@
-const canvas = document.getElementById('board')
-const ctx = canvas.getContext('2d')
-/* A canvas which draws a Tetris board */
-
-const next = document.getElementById('next')
-const nctx = next.getContext('2d')
-/* A canvas which draws a next block */
-
-const TITLE = document.getElementById('title')
-const LEVEL = document.getElementById('level')
 
 nctx.canvas.width = 4 * BLOCK_SIZE
 nctx.canvas.height = 4 * BLOCK_SIZE
@@ -66,6 +56,7 @@ function update(idt) {
                 window.cancelAnimationFrame(requestId)
                 TITLE.textContent = 'Game Over'
                 document.removeEventListener('keydown', handleKeyPress)
+                saveHighScore()
             }
         }
     }
@@ -140,11 +131,28 @@ let account = new Proxy(accountValues, {
     }
 })
 
-moves = {
-    [KEYS.UP]: (p) => ({ ...p }),
-    [KEYS.LEFT]: (p) => ({ ...p, x: p.x - 1 }),
-    [KEYS.RIGHT]: (p) => ({ ...p, x: p.x + 1 }),
-    [KEYS.DOWN]: (p) => ({ ...p, y: p.y + 1 }),
-    [KEYS.SPACE]: (p) => ({ ...p, y: p.y + 1 })
+function setCookie(name, value, day) {
+    let date = new Date()
+    date.setTime(date.getTime() + day * 60 * 60 * 24 * 1000)
+    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/'
 }
-/* Shallow coppy */
+
+function getCookie(name) {
+    let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
+    return value? value[2] : null
+}
+
+function deleteCookie(name) {
+    let date = new Date()
+    document.cookie = name + "= " + "; expires=" + date.toUTCString() + "; path=/"
+}
+
+function saveHighScore() {
+    const highScore = getCookie('score')
+    const currentScore = accountValues.score
+    if(highScore === null || highScore < currentScore) {
+        setCookie('score', currentScore, 10)
+        console.log(getCookie('score'))
+        HIGHSCORE.textContent = currentScore
+    }
+}
