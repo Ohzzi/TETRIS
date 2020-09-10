@@ -78,13 +78,13 @@ body {
     text-align: left;
 }
 
-.ranking {
+.highScore {
     font-size: 24px;
     display: flex;
     flex-direction: column;
 }
 
-.ranking .text {
+.highScore .text {
     width: 245px;
     margin: 24px;
 }
