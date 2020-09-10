@@ -19,6 +19,8 @@ let accountValues = {
     lines: 0
 }
 
+saveHighScore()
+
 function animate() {
     now = timestamp()
     if(!isPaused) {
@@ -150,9 +152,11 @@ function deleteCookie(name) {
 function saveHighScore() {
     const highScore = getCookie('score')
     const currentScore = accountValues.score
-    if(highScore === null || highScore < currentScore) {
+    if(highScore === null || highScore.value < currentScore) {
         setCookie('score', currentScore, 10)
-        console.log(getCookie('score'))
         HIGHSCORE.textContent = currentScore
+    }
+    else {
+        HIGHSCORE.textContent = highScore.value
     }
 }
