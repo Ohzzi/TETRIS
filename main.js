@@ -152,11 +152,12 @@ function deleteCookie(name) {
 function saveHighScore() {
     const highScore = getCookie('score')
     const currentScore = accountValues.score
-    if(highScore === null || highScore.value < currentScore) {
+    if(highScore === null || highScore < currentScore) {
+        deleteCookie('score')
         setCookie('score', currentScore, 10)
         HIGHSCORE.textContent = currentScore
     }
     else {
-        HIGHSCORE.textContent = highScore.value
+        HIGHSCORE.textContent = highScore
     }
 }
