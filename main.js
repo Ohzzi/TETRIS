@@ -168,11 +168,12 @@ function deviceCheck() {
     let pcDevice = "win16|win32|win64|mac|macintel"
 
     if (navigator.platform) {
-        if ( pcDevice.indexOf(navigator.platform.toLowerCase()) < 0 ) {
-            isMobile = true
-            window.location.replace("./mobile.html")
+        if (pcDevice.indexOf(navigator.platform.toLowerCase()) < 0) {
+            //isMobile = true
+            //window.location.replace("./mobile.html")
         }
         else {
+
         }
     }
 }
