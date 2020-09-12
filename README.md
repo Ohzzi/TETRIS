@@ -1,5 +1,5 @@
 # TETRIS
-TETRIS with JavaScript  
+<h3>TETRIS with JavaScript</h3>  
   
 https://ohzzi.github.io/TETRIS/
   
