@@ -98,3 +98,25 @@ body {
     width: 340px;
     margin-bottom: 36px;
 }
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 24px;
+}
+
+.mobileButton {
+    width: 200px;
+    height: 100px;
+}
+
+@media (min-width: 320px) and (max-width: 1350px) {
+    .highScore {
+        display: none;
+    }
+    
+    .howToPlay {
+        display: none;
+    }
+}
