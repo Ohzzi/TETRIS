@@ -1,7 +1,9 @@
 # TETRIS
-TETRIS with JavaScript  
+<h3>TETRIS with JavaScript</h3>  
   
 https://ohzzi.github.io/TETRIS/
+  
+------------------------------------------------------------------  
   
 How To Use
 
@@ -11,3 +13,10 @@ How To Use
 → : Move right  
 SPACE : Hard drop  
 ESC : Pause
+  
+------------------------------------------------------------------  
+  
+The high score is saved in your browser for 10 days.  
+If you want to reset your high score, clear your cookie for this page.  
+For now, this does not work on mobile.  
+The mobile version will be released soon.
