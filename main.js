@@ -19,7 +19,7 @@ let accountValues = {
     lines: 0
 }
 
-saveHighScore()
+if(!isMobile) saveHighScore()
 deviceCheck()
 
 function animate() {
@@ -151,6 +151,7 @@ function deleteCookie(name) {
 }
 
 function saveHighScore() {
+    if(isMobile) return
     const highScore = getCookie('score')
     const currentScore = accountValues.score
     if(highScore === null || highScore < currentScore) {
@@ -166,13 +167,12 @@ function saveHighScore() {
 function deviceCheck() {
     let pcDevice = "win16|win32|win64|mac|macintel"
 
-    if ( navigator.platform ) {
+    if (navigator.platform) {
         if ( pcDevice.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+            isMobile = true
             window.location.replace("./mobile.html")
         }
         else {
-            window.location.replace("./mobile.html")
-            console.log("PC")
         }
     }
 }

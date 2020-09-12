@@ -46,7 +46,8 @@ let currentShape = 0,
     isPlay = false,
     isGameOver = false,
     isDropped = false,
-    isPaused = false
+    isPaused = false,
+    isMobile = false
 
 const shapes = [
     [0x2700, 0x2320, 0x0720, 0x2620], // 'T' 
