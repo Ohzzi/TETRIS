@@ -20,6 +20,7 @@ let accountValues = {
 }
 
 saveHighScore()
+deviceCheck()
 
 function animate() {
     now = timestamp()
@@ -159,5 +160,19 @@ function saveHighScore() {
     }
     else {
         HIGHSCORE.textContent = highScore
+    }
+}
+
+function deviceCheck() {
+    let pcDevice = "win16|win32|win64|mac|macintel"
+
+    if ( navigator.platform ) {
+        if ( pcDevice.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+            window.location.replace("./mobile.html")
+        }
+        else {
+            window.location.replace("./mobile.html")
+            console.log("PC")
+        }
     }
 }

@@ -1,3 +1,7 @@
+html {
+    width: 100%;
+}
+
 * {
     font-family: 'Press Start 2P', cursive;
 }
@@ -106,17 +110,11 @@ body {
     margin-top: 24px;
 }
 
+.mobile div {
+    display: flex;
+}
+
 .mobileButton {
     width: 200px;
     height: 100px;
-}
-
-@media (min-width: 320px) and (max-width: 1350px) {
-    .highScore {
-        display: none;
-    }
-    
-    .howToPlay {
-        display: none;
-    }
 }
