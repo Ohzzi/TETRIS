@@ -48,12 +48,10 @@ class Piece {
     }
 
     rotateBlock() {
-        currentRotation++
-        if (currentRotation === 4) currentRotation = 0
+        currentRotation = (currentRotation + 1) % 4
     }
 
     restoreBlock() {
-        currentRotation--
-        if (currentRotation === -1) currentRotation = 3
+        currentRotation = (currentRotation - 1) % 4
     }
 }

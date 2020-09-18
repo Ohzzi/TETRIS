@@ -39,7 +39,7 @@ class Board {
     setNext() {
         nextShape = Math.floor(Math.random() * colorList.length)
         let nextPiece = new Piece(nctx, 0)
-        const { width, height } = nctx.canvas;
+        const { width, height } = nctx.canvas
         nctx.clearRect(0, 0, width, height)
         nextPiece.draw(nextShape)
     }
@@ -54,12 +54,6 @@ class Board {
                 }
             }
         }
-    }
-
-    drawPiece(p, shape) {
-        this.piece.setPosition(p)
-        this.freezePiece(this.piece)
-        this.piece.draw(shape)
     }
 
     freezePiece(p) {
@@ -164,7 +158,7 @@ class Board {
     movePiece(p) {
         if (this.valid(p)) {
             this.removePiece()
-            this.piece.setPosition(p);
+            this.piece.setPosition(p)
             this.makeGhost()
             this.piece.draw(currentShape)
         }
